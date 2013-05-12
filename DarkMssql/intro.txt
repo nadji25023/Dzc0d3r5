@@ -1,0 +1,34 @@
+Hi guys
+
+before I post my tool.
+Each one of us knows that extracting data from a ms sql server DBMS is the most boring of all the other DBMS. 
+Sometimes it takes more than 1 hour to retrieve the names of dbs only. 
+Despite the fact that there is nothing complex but just for each data we must do a different queries .
+and that's why there are an automatic scripts as Sqlmap, fast-track ... 
+Then I got the idea to create a php automatic script! 
+Why php? 
+1 - It is a langage that I'm coding well than others (Perl or Python xD). 
+2 - To benefit from the power and high speed of servers that exists on net. 
+3 - For Safety reasens: because you know if the admin track an attack he will find that it was executed behind a server. 
+And when I tested I was really impressed by the results because I could extract the name of 310 dbs in 3 minutes and 10 seconds. 
+it's a huge because if it was done manually  it should take more than 10 hours.
+And with darkmssql I never could get all the dbs and even to retrieve 90 dbs its takes more than 10 minutes.
+
+The link to test my tool
+
+[code]http://dzc0d3rs.000a.biz/[/code]
+
+Now i'll show you the major Features at this point v1.0
+
+Information_schema Features:
+-- Capable of displaying informations about MSSQL host
+-- Capable of displaying all databases user has access too
+-- Capable of displaying tables in a specific database
+-- Capable of displaying columns in a specific database and table
+
+Data Extracting Features:
+-- Capable of displaying data from a specific database, table and column
+
+And for all the options I made a copy from Darkmssql.py :)
+
+Have fun

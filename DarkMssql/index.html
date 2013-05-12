@@ -1,0 +1,89 @@
+<HTML>
+ <HEAD>
+  <TITLE>DZ-c0d3rs | DarkMsSQL</TITLE>
+	<style type="text/css">
+
+	</style>
+ </HEAD>
+ 
+ <BODY style="margin:10">
+ <pre>
+<h3>DZ-c0d3rs | DarkMsSQL - </h3>
+<table border="0">
+ <form target="_blank" action="get_info.php" method="POST">
+	<tr>
+	<td width="150">Link</td>
+	<td><input type="text" name="link" size="100"><input type="submit" value="Get info"></td>
+		</tr>
+ </form>
+ 
+   <tr><td colspan="3"><hr border="1"></td></tr>
+ 
+  <form target="_blank" action="get_dbs.php" method="POST">
+	<tr>
+	<td width="150">Link</td>
+	<td><input type="text" name="link" size="100"><input type="submit" value="Get DBs"></td>
+	
+	
+	</tr>
+ </form>
+ 
+  <tr><td colspan="3"><hr border="1"></td></tr>
+
+ <form target="_blank" action="get_tables.php" method="POST">
+ 	<tr>
+	<td>Link</td>
+	<td><input type="text" name="link" size="100"></td>
+	</tr>
+<tr>
+		<td>DataBase</td>
+	<td><input type="text" name="db_value" size="50"><input type="submit" value="Get Tables"></td>
+	</tr>
+  </form>
+ 
+ <tr><td colspan="3"><hr border="1"></td></tr>
+ 
+ <form target="_blank" action="get_columns.php" method="POST">
+ 	<tr>
+	<td>Link</td>
+	<td><input type="text" name="link" size="100"></td>
+	</tr>
+<tr>
+		<td>DataBase</td>
+	<td><input type="text" name="db_value" size="50"></td>
+	</tr>
+	<tr>
+	<td>Table</td>
+	<td><input type="text" name="table_value" size="50"><input type="submit" value="Get Columns"></td>
+	</tr>
+  </form>
+ 
+ <tr><td colspan="3"><hr border="1"></td></tr>
+
+ <form target="_blank" action="get_data.php" method="POST">
+	<tr>
+	<td>Link</td>
+	<td><input type="text" name="link" size="100"></td>
+	</tr>
+	<tr>
+	<td>DataBase</td>
+	<td><input type="text" name="db_value"></td>
+	</tr>
+	<tr>
+	<td>Table</td>
+	<td><input type="text" name="table_value"></td>
+	</tr>
+	<tr>
+	<td>Columns</td>
+	<td><textarea type="text" name="field_values" cols="30" rows="5"></textarea></td>
+	</tr>
+	<tr><td></td>
+	<td><input type="submit" value="Get Data"></td>
+	</tr>
+ </form>
+  <tr><td colspan="3"><hr border="1"></td></tr>
+  
+ </table>
+
+ </BODY>
+</HTML>
