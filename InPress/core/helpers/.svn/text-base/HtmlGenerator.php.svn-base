@@ -1,0 +1,474 @@
+<?php
+class HtmlGenerator{
+
+    function select($value)     {
+        if (isset($value['target'])) {
+            if (isset($value['options'])) {
+                $value['options'] = $value['options'] + $this->get_select_target_options($value['target']);
+            } else {
+                $value['options'] = $this->get_select_target_options($value['target']);
+            }
+        }
+        $rendering = '<div class="row-fluid">
+                <div class="heading span3"><h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>';
+        $rendering .= '<div class="span7">';
+        if (isset($value['radio_image'])) {
+            if (isset($value['options'])) {
+                foreach ($value['options'] as $key => $option) {
+                    $rendering .= '<input
+                        id="' . $key . '-id"
+                        type="radio"
+                        name="' . $value['id'] . '"
+                        value="' . $key . '"
+                        class="radioImageSelect"
+                        data-image="' . THEME_IMAGES_URI . '/radio/' . $key . '.png"';
+                    if (isset($this->saved_options[$value['id']])) {
+                        if (stripslashes($this->saved_options[$value['id']]) == $key) {
+                            $rendering .= ' selected="selected"';
+                        }
+                    } else if ($key == $value['default']) {
+                        $rendering .= ' cheaked="cheaked"';
+                    }
+                    $rendering .= '/>';
+                }
+            }
+        } else {
+            $rendering .= '<select id="' . $value['id'] . '" name="' . $value['id'] . '">';
+            if (isset($value['prompt'])) {
+                $rendering .= '<option value="">' . $value['prompt'] . '</option>';
+            }
+            if (isset($value['options'])) {
+                foreach ($value['options'] as $key => $option) {
+                    $rendering .= "<option value='" . $key . "'";
+                    if (isset($this->saved_options[$value['id']])) {
+                        if (stripslashes($this->saved_options[$value['id']]) == $key) {
+                            $rendering .= ' selected="selected"';
+                        }
+                    } else if ($key == $value['default']) {
+                        $rendering .= ' selected="selected"';
+                    }
+
+                    $rendering .= '>' . $option . '</option>';
+                }
+            }
+            if (isset($value['page'])) {
+                $depth = $value['page'];
+                $selected = isset($this->saved_options[$value['id']]) ? stripslashes($this->saved_options[$value['id']]) : $value['default'];
+                $args = array(
+                    'depth' => $depth, 'child_of' => 0,
+                    'selected' => $selected, 'echo' => 1,
+                    'name' => 'page_id', 'id' => '',
+                    'show_option_none' => '', 'show_option_no_change' => '',
+                    'option_none_value' => ''
+                );
+                $pages = get_pages($args);
+                $rendering .= walk_page_dropdown_tree($pages, $depth, $args);
+            }
+            $rendering .= '</select>';
+        }
+        $rendering .= '</div>';
+        if (isset($value['desc'])) {
+            $rendering .= $this->help_description($value);
+        }
+        $rendering .= '</div>';
+
+        return $rendering;
+    }
+
+    /**
+    * displays a range input
+
+    function range($value) {
+        echo '<tr><th scope="row"><h4>' . $value['name'] . '</h4></th><td>';
+        if(isset($value['desc'])){
+                echo '<p class="description">' . $value['desc'] . '</p>';
+        }
+        echo '<div class="range-input-wrap"><input name="' . $value['id'] . '" id="' . $value['id'] . '" type="range" value="';
+        if (isset($this->saved_options[$value['id']])) {
+                echo stripslashes($this->saved_options[$value['id']]);
+        } else {
+                echo $value['default'];
+        }
+        if (isset($value['min'])) {
+                echo '" min="' . $value['min'];
+        }
+        if (isset($value['max'])) {
+                echo '" max="' . $value['max'];
+        }
+        if (isset($value['step'])) {
+                echo '" step="' . $value['step'];
+        }
+        echo '" />';
+        if (isset($value['unit'])) {
+                echo '<span>' . $value['unit'] . '</span>';
+        }
+        echo '</div></td></tr>';
+    }
+    */
+    function numeric($value)     {
+        $size = isset($value['size']) ? $value['size'] : '5';
+        $rendering = '
+
+
+<div class = "slider-range-min row-fluid">
+<div class = "heading span3">
+<h4>
+<label for = "' . $value['id'] . '">' . $value['name'] . '</label>
+</h4>
+</div>';
+
+        if (isset($this->saved_options[$value['id']])) {
+            $val = stripslashes($this->saved_options[$value['id']]);
+        } else {
+            $val = '';
+        }
+
+
+        $rendering .= '<div class = "input-append span2">';
+        $rendering .= '<input name = "' . $value['id'] . '" id = "' . $value['id'] . '" type = "text" class = "numeric_input span8" size = "' . $size . '" value = "' . $val . '" />';
+
+        $rendering .= '<span class = "add-on">';
+
+        $rendering .= $value['unit'];
+        $rendering .= '</span>';
+
+        $rendering .= '</div>';
+        $rendering .= '<div class = "span6" style = "padding: 5px 0 0;">
+
+<div id = "' . $value['id'] . '-slider" class = "slider slider-info"></div>
+</div>';
+
+        if (isset($value['desc'])) {
+            $rendering .= $this->help_description($value);
+        }
+        $rendering .= '</div>';
+        if (isset($value['min']))
+            $min = $value['min'];
+        else
+            $min = 1;
+
+        if (isset($value['max']))
+            $max = $value['max'];
+        else
+            $max = 700;
+
+        $rendering .= '
+<script type = "text/javascript">
+
+jQuery(".slider-range-min #' . $value['id'] . '-slider").slider({
+value : "' . $val . '",
+ range: "min",
+ min: ' . $min . ',
+ max: ' . $max . ',
+ slide: function(event, ui) {
+jQuery(".slider-range-min #' . $value['id'] . '").val(ui.value);
+}
+});
+</script>
+            ';
+
+        return $rendering;
+    }
+
+    function text($value) {
+    $size = isset($value['size']) ? $value['size'] : '10';
+
+
+    $rendering = '<div class="row-fluid "><div class="heading span3"><h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>
+        <div>';
+
+
+    $rendering .= '<div class="span7">';
+    if (isset($value['text_addon']) && isset($value['addon'])) {
+
+    $rendering .= '<div class="input-append">';
+
+    if ($value['text_addon'] == 'prepend') {
+        $rendering .= '<span class="add-on">';
+        $rendering .= $value['addon'];
+        $rendering .= '</span>';
+    }
+    }
+    $rendering .= '<input name="' . $value['id'] . '" id="' . $value['id'] . '" type="text" size="' . $size . '"';
+
+
+    if (isset($this->saved_options[$value['id']]) && !empty($this->saved_options[$value['id']])) {
+    $rendering .= 'value="' . stripslashes($this->saved_options[$value['id']]);
+    $rendering .= '" />';
+    } else if (isset($value['default']) && !empty($value['default'])) {
+    $rendering .= 'value="' . $value['default'];
+    $rendering .= '" />';
+    } else {
+    $rendering .= '/>';
+    }
+    if (isset($value['text_addon']) && isset($value['addon'])) {
+
+
+    if ($value['text_addon'] == 'append') {
+        $rendering .= '<span class="add-on">';
+        $rendering .= $value['addon'];
+        $rendering .= '</span>';
+    }
+
+    $rendering .= '</div>';
+    }
+    $rendering .= '</div></div>';
+
+    if (isset($value['desc'])) {
+    $rendering .= $this->help_description($value);
+    }
+    $rendering .= '</div>';
+
+    return $rendering;
+    }
+
+    function upload($value)
+    {
+
+
+        $size = isset($value['size']) ? $value['size'] : '10';
+        $img_url = isset($this->saved_options[$value['id']]) ? stripslashes($this->saved_options[$value['id']]) : '';
+
+        $rendering = '<div id="uploading_div_' . $value['id'] . '" class = "row-fluid uploading_div">
+                        <div class = "heading span3"><h4>
+                        <label for = "' . $value['id'] . '">' . $value['name'] . '</label for = "' . $value['id'] . '">
+                        </h4>
+                        </div>';
+        $rendering .= '<div class = "span5">';
+        $rendering .= '<div  class = "input-prepend">';
+        $rendering .= '<span class = "add-on"><span class = "icon16 icons-upload"></span></span>';
+        $rendering .= '<input name = "' . $value['id'] . '" id = "upload_image_' . $value['id'] . '" type = "text" size = "' . $size . '" value = "' . $img_url . '" />';
+
+        $rendering .= '
+                        </div>
+                        </div>';
+        $rendering .= '<div id="upload_thumbnail_' . $value['id'] . '" class="span3 upload_thumbnail well">
+                        <span class="icon42 icons-image" > </span>
+                        </div>';
+
+        if (isset($value['desc'])) {
+            $rendering .= $this->help_description($value);
+        }
+        $rendering .= '<script type="text/javascript">
+
+                jQuery(document).ready(function(){
+                    jQuery(\'#upload_image_' . $value['id'] . '\')
+                    .focus(function($) {
+                    formfield = jQuery(\'#upload_image\').attr(\'name\');
+                    tb_show(\'\', \'media-upload.php?type=image&amp;TB_iframe=true\');
+                    return false;
+                    });
+
+                    window.send_to_editor = function(html) {
+                    imgurl = jQuery(\'img\', html).attr(\'src\');
+                    jQuery(\'#upload_image_' . $value['id'] . '\').val(imgurl);
+                    tb_remove();
+                    show_thumbnail();
+
+                    };
+                 });
+
+                    </script>';
+        $rendering .= '</div>';
+
+        return $rendering;
+    }
+    function richtext($value) {
+    $cl_class = '';
+    if ($value['rich']) {
+    $cl_class = 'class ="cleditor"';
+    }
+
+    $rendering = '<div class="row-fluid ">
+    <div class="heading span3">
+    <h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>
+    <div class="span7">';
+
+    $rendering .= '<textarea rows="4" name="' . $value['id'] . '" id="' . $value['id'] . '" ' . $cl_class . '>';
+    if (isset($this->saved_options[$value['id']])) {
+    $rendering .= stripslashes($this->saved_options[$value['id']]);
+    } else {
+    $rendering .= $value['default'];
+    }
+    $rendering .= '</textarea>';
+    $rendering .= '';
+    $rendering .= '</div>
+
+    ';
+    if (isset($value['desc'])) {
+    $rendering .= $this->help_description($value);
+    }
+    $rendering .= '</div>';
+    return $rendering;
+    }
+
+    function toggle($value)     {
+        $checked = '';
+        $class = isset($value['class']) ? $value['class'] : 'onoff';
+
+
+        $default = isset($value['default']) ? $value['default'] : 'false';
+        $option = isset($this
+            ->saved_options[$value['id']]) ? $this->saved_options[$value['id']] :
+            $default;
+
+        if ($option == 'true') {
+            $checked = 'checked = "checked"';
+        }
+
+        $rendering = '<div class = "row-fluid ">
+<div class = "heading span3">
+<h4><label for = "' . $value['id'] . '">' . $value['name'] . '</label></h4>
+</div>';
+
+
+        $rendering .= '<div class = "span7">
+<div>
+<input type = "checkbox" class = "' . $class . '" id = "' . $value['id'] . '" name = "' . $value['id'] . '" ' . $checked . ' />
+</div>
+</div>';
+
+
+        if (isset($value['desc'])) {
+            $rendering .= $this->help_description($value);
+        }
+        $rendering .= '</div>';
+
+        return $rendering;
+    }
+
+    function colorpicker($value) {
+    $size = isset($value['size']) ? $value['size'] : '10';
+    $current_color = $value['default'];
+
+
+    if (isset($this->saved_options[$value['id']])) {
+    $rendering .= stripslashes($this->saved_options[$value['id']]);
+    $current_color = $this->saved_options[$value['id']];
+    }
+
+    $rendering = '<div class="row-fluid "><div class="heading span3"><h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>
+        <div>';
+    $rendering .= '
+
+        <div class="row-fluid">
+        <div class="span5">';
+    $rendering .= '
+        <input name="' . $value['id'] . '" id="' . $value['id'] . '" class="color_input" type="text" size="' . $size . '" maxlength="7" value="' . $current_color . '"/>';
+
+    $rendering .= '
+        </div>
+        <div class="span5">';
+    $rendering .= '
+
+        <div class="color_preview" id="' . $value['id'] . '-preview" style="background:' . $current_color . ';">
+        <div class="color_preview_wrap">
+        </div>
+        </div>
+        </div>
+        </div>
+
+        ';
+    $rendering .= '</div><div>';
+    if (isset($value['desc'])) {
+    $rendering .= $this->help_description($value);
+    }
+    $rendering .= '</div>';
+
+    return $rendering;
+    }
+
+    function multiselect($value) {
+    $size = isset($value['size']) ? $value['size'] : '5';
+
+    $rendering = '<div class="row-fluid "><div class="heading span3"><h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>';
+    $rendering .= '<div  class="10">';
+
+    $rendering .= $selected_keys;
+
+    $rendering .= '<select multiple="multiple" id="' . $value['id'] . '" class="multiselect" name="' . $value['id'] . '[]" size="' . $size . '">';
+
+    if (!empty($value['options']) && is_array($value['options'])) {
+    foreach ($value['options'] as $key => $option) {
+        $rendering .= '<option value="' . $key . '"';
+        if (isset($this->saved_options[$value['id']])) {
+            if (is_array($this->saved_options[$value['id']])) {
+                if (in_array($key, $this->saved_options[$value['id']])) {
+                    $rendering .= ' selected="selected"';
+                }
+            }
+        }
+        $rendering .= '>' . $option . '</option>';
+    }
+    }
+
+    $rendering .= '</select>';
+    $rendering .= '</div>';
+    if (isset($value['desc'])) {
+    $rendering .= $this->help_description($value);
+    }
+    $rendering .= '</div>';
+
+    return $rendering;
+    }
+
+    function datepicker($value) {
+    $size = isset($value['size']) ? $value['size'] : '10';
+
+    $rendering = '<div class="row-fluid "><div class="heading span3"><h4><label for="' . $value['id'] . '">' . $value['name'] . '</label></h4></div>
+        <div class="span7">';
+
+    $rendering .= '<input name="' . $value['id'] . '" id="' . $value['id'] . '" class="datepicker" type="text" size="' . $size . '" value="';
+    if (isset($this->saved_options[$value['id']])) {
+    $rendering .= $this->saved_options[$value['id']];
+    } else {
+    $rendering .= $value['default'];
+    }
+    $rendering .= '" />';
+    $rendering .= '</div>';
+
+    if (isset($value['desc'])) {
+    $rendering .= $this->help_description($value);
+    }
+    $rendering .= '</div>';
+
+    return $rendering;
+    }
+
+    function custom($value) {
+    if (isset($this->saved_options[$value['id']])) {
+    $default = $this->saved_options[$value['id']];
+    } else {
+    $default = $value['default'];
+    }
+    if (isset($value['layout']) && $value['layout'] == false) {
+    if (isset($value['function']) && function_exists($value['function'])) {
+        $value['function']($value, $default);
+    } else {
+        $output = $value['html'];
+    }
+    } else {
+    $output .= '<div class="row-fluid">
+            <div class="heading span3"><h4>' . $value['name'] . '</h4></div>
+                        ';
+    if (isset($value['desc'])) {
+        $output .= $this->help_description($value);
+    }
+
+    return $output;
+    }
+
+
+
+    return $output;
+    }
+
+    function help_description($value) {
+    //$rendering = '<div class="span2">';
+    $rendering = '<span class="tooltip-info pull-right" rel="tooltip" data-placement="left" title="' . $value['name'] . '" data-content="' . $value['desc'] . '" ><span class="icon20 blue icons-question"></span></span>';
+    //$rendering .= '</div>';
+
+    return $rendering;
+    }
+}
+?>

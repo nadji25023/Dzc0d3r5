@@ -1,0 +1,118 @@
+<?php
+
+// Avoid direct calls to this file where wp core files not present
+if (!function_exists('add_action')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit();
+}
+
+class AdminInit {
+
+    function init() {
+
+        /* Load functions for admin. */
+        $this->functions();
+
+        /* Create theme options menu */
+        add_action('admin_menu', array(&$this, 'menus'));
+
+
+        add_action('admin_enqueue_scripts', array(&$this, 'scripts'));
+        /*Pourquoi ça ne marche pas avec admin_enqueue_styles ???*/
+        add_action('admin_enqueue_scripts', array(&$this, 'styles'));
+        //add_action('admin_notices',  array(&$this,'warnings'));
+
+        /* Load custom types */
+        //$this->types();
+
+        /* Load Metaboxes */
+        $this->metaboxes();
+    }
+
+    function functions() {
+        //require_once THEME_ADMIN_FUNCTIONS.'/metaboxes.php';
+        //add_action('add_meta_boxes','init_custom_metaboxes');
+        //add_action('save_post','save_custom_metaboxes');
+    }
+
+    function styles() {
+        wp_enqueue_style('thickbox');
+
+        wp_enqueue_style('bootstrap-css', THEME_CSS_LIBRARIES . '/bootstrap.min.css', array(), '2.3.1', 'screen');
+
+        wp_enqueue_style('bootstrap-toggle-buttons', THEME_CSS_LIBRARIES . '/bootstrap-toggle-buttons.css', array('bootstrap-css'), '', 'screen');
+        wp_enqueue_style('bootstrap-colorpicker', THEME_CSS_LIBRARIES . '/colorpicker.css', array('bootstrap-css'), '', 'screen');
+        wp_enqueue_style('icons', THEME_CSS_LIBRARIES . '/icons.css', array('bootstrap-css'), '', 'screen');
+
+        wp_enqueue_style('jquery-ui', THEME_CSS_LIBRARIES . '/smoothness/jquery-ui-1.9.2.custom.min.css', array(), '1.9.2', 'screen');
+
+
+        wp_enqueue_style('custom-admin-style', THEME_ADMIN_CSS . '/custom.css', array('bootstrap-css'), '', 'screen');
+    }
+
+    function scripts() {
+        wp_enqueue_script('media-upload');
+        wp_enqueue_script('thickbox');
+        wp_enqueue_script('jquery-ui-slider');
+        wp_enqueue_script('bootstrap-js', THEME_JS_LIBRARIES . "/bootstrap.min.js", array('jquery'), '2.3.1', false);
+        wp_enqueue_script('bootstrap-toggle-buttons', THEME_JS_LIBRARIES . "/jquery.toggle.buttons.js", array('jquery', 'bootstrap-js'), '2.8.2', false);
+        wp_enqueue_script('bootstrap-colorpicker', THEME_JS_LIBRARIES . "/bootstrap-colorpicker.js", array('jquery', 'bootstrap-js'), '2.0', false);
+        wp_enqueue_script('jquery-numeric', THEME_JS_LIBRARIES . "/jquery.numeric.js", array('jquery'), '1.0', false);
+        wp_enqueue_script('jquery-localScroll', THEME_JS_LIBRARIES . "/jquery.localscroll-1.2.7-min.js", array('jquery'), '1.2.7', false);
+        wp_enqueue_script('jquery-scrollTo', THEME_JS_LIBRARIES . "/jquery.scrollTo-1.4.3.1-min.js", array('jquery-localScroll'), '1.4.3.1', false);
+
+        //wp_enqueue_script('common');
+        //wp_enqueue_script('wp-lists');
+        wp_enqueue_script('postbox');
+        wp_enqueue_script('custom-admin-js', THEME_ADMIN_JS . "/custom.js", array('jquery', 'jquery-ui-slider'), '1.0', false);
+    }
+
+    function menus() {
+
+        add_menu_page(THEME_NAME, THEME_NAME . ' Settings', 'edit_theme_options', 'general_options', array(&$this, 'load_option_page'), THEME_IMAGES_URI . '/admin_icon.png');
+
+        add_submenu_page('general_options', 'General', 'General', 'edit_theme_options', 'general_options', array(&$this, 'load_option_page'));
+
+        add_submenu_page('general_options', 'Pages', 'Pages', 'edit_theme_options', 'pages_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'Components', 'Components', 'edit_theme_options', 'components_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'Style', 'Style', 'edit_theme_options', 'style_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'Slideshows', 'Slideshows', 'edit_theme_options', 'slideshows_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'SEO', 'SEO', 'edit_theme_options', 'seo_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'Advanced', 'Advanced', 'edit_theme_options', 'advanced_options', array(&$this, 'load_option_page'));
+        add_submenu_page('general_options', 'Help', 'Help', 'edit_theme_options', 'help_topics', array(&$this, 'load_docs_page'));
+
+        add_theme_page('sidebars_options', 'Sidebars', 'edit_theme_options', 'sidebars_options', array(&$this, 'load_option_page'));
+    }
+
+    function load_option_page() {
+        $this->styles();
+        $this->scripts();
+
+        include_once (THEME_HELPERS . '/AdminGenerator.php');
+        $page = include(THEME_ADMIN_OPTIONS . "/" . $_GET['page'] . '.php');
+        new AdminGenerator($page['name'], $page['options']);
+    }
+
+    function load_docs_page() {
+        include_once (THEME_HELPERS . '/DocsGenerator.php');
+        $options = include(THEME_ADMIN_OPTIONS . "/" . $_GET['page'] . '.php');
+
+        new DocsGenerator($options['title'], $options['docs']);
+    }
+
+    function warnings() {
+
+    }
+
+    function metaboxes() {
+        require_once (THEME_HELPERS . '/MetaboxGenerator.php');
+        require_once (THEME_ADMIN_METABOXES . '/slider_type.php');
+        require_once (THEME_ADMIN_METABOXES . '/page_options.php');
+
+        //require_once (THEME_ADMIN_METABOXES . '/iview_slider.php');
+    }
+
+}
+
+?>

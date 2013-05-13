@@ -1,0 +1,97 @@
+<?php
+/**
+ * Sub Navigation Widget Class
+ */
+class Theme_Header_Widgets extends WP_Widget {
+
+	function Theme_Header_Widgets() {
+		$widget_ops = array('classname' => 'widgets_header', 'description' => __( 'Add a header widget (Works Only in Header Areas)', 'inpress_admin') );
+		$this->WP_Widget('widheader', '[ '.THEME_NAME.' ] '.__('Header Widget', 'inpress_admin'), $widget_ops);
+	}
+
+	function widget( $args, $instance ) {
+            if(isset($instance['hposition']) && isset($instance['vposition'])){
+                $hposition = $instance['hposition'];
+                $vposition = $instance['vposition'];
+                
+                switch ($instance['component']){
+                    case 'social':
+                        echo theme_generator('social_generator',$hposition, $vposition);
+                        break;
+                    case 'search':
+                        echo theme_generator('search_form_generator',$hposition, $vposition);
+                        break;
+                    case 'logo' : 
+                        echo theme_generator('logo_generator',$hposition, $vposition);
+                        break;
+                    case 'quicknav':
+                        echo theme_generator('quick_nav_menu_generator',$hposition, $vposition);
+                        break;
+                    case 'mainnav':
+                        echo theme_generator('main_nav_menu_generator',$hposition, $vposition, true, '');
+                        break;
+                    case 'contactinfo':
+                        echo theme_generator('contact_info_generator',$hposition, $vposition);
+                        break;
+                    default :
+                        break;
+                }
+            }
+	}
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+                
+		if (isset( $new_instance['component']) ) {
+			$instance['component'] = $new_instance['component'];
+		} else {
+			$instance['component'] = 'logo';
+		}
+                if (isset( $new_instance['hposition']) ) {
+			$instance['hposition'] = $new_instance['hposition'];
+		} else {
+			$instance['hposition'] = 'pull-left';
+		}
+                if (isset( $new_instance['vposition']) ) {
+			$instance['vposition'] = $new_instance['vposition'];
+		} else {
+			$instance['vposition'] = 0;
+		}
+		return $instance;
+	}
+
+	function form( $instance ) {
+		//Defaults
+		$instance = wp_parse_args( (array) $instance, array( 'component' => 'logo', 'hposition' => 'left', 'vposition' => 0) );
+	?>
+		<p>
+                    <label for="<?php echo $this->get_field_id('component'); ?>"><?php _e( 'Select Component', 'inpress_admin'); ?></label>
+                    <select name="<?php echo $this->get_field_name('component'); ?>" id="<?php echo $this->get_field_id('component'); ?>" class="widefat">
+                        <option value="logo"<?php selected( $instance['component'], 'logo' ); ?>><?php _e( 'Logo', 'inpress_admin' ); ?></option>
+                        <option value="contactinfo"<?php selected( $instance['component'], 'contactinfo' ); ?>><?php _e('Contacts Informations', 'inpress_admin'); ?></option>
+                        <option value="mainnav"<?php selected( $instance['component'], 'mainnav' ); ?>><?php _e('Main Navigation', 'inpress_admin'); ?></option>
+                        <option value="quicknav"<?php selected( $instance['component'], 'quicknav' ); ?>><?php _e( 'Quick Navigation', 'inpress_admin' ); ?></option>
+                        <option value="search"<?php selected( $instance['component'], 'search' ); ?>><?php _e('Search Form', 'inpress_admin'); ?></option>
+                        <option value="social"<?php selected( $instance['component'], 'social' ); ?>><?php _e('Social Icons', 'inpress_admin'); ?></option>
+                    </select>
+		</p>
+                
+                <p>
+                    <label for="<?php echo $this->get_field_id('hposition'); ?>"><?php _e( 'Horizontal Alignement', 'inpress_admin'); ?></label>
+                    <select name="<?php echo $this->get_field_name('hposition'); ?>" id="<?php echo $this->get_field_id('hposition'); ?>" class="widefat">
+                        <option value="pull-left"<?php selected( $instance['hposition'], 'pull-left' ); ?>><?php _e('Left', 'inpress_admin'); ?></option>
+                        <option value="center"<?php selected( $instance['hposition'], 'center' ); ?>><?php _e('Center', 'inpress_admin'); ?></option>
+                        <option value="pull-right"<?php selected( $instance['hposition'], 'pull-right' ); ?>><?php _e( 'Right', 'inpress_admin' ); ?></option>
+
+                    </select>
+		</p>                
+                
+                <p>
+
+                    <label for="<?php echo $this->get_field_id('vposition'); ?>"><?php _e( 'Margin top', 'inpress_admin'); ?>&nbsp;</label>
+                    <input id="<?php echo $this->get_field_id('vposition'); ?>" name="<?php echo $this->get_field_name('vposition'); ?>" type="text" value="<?php echo $instance['vposition'] ?>" size="3"> px
+
+                </p>
+            <?php
+	}
+}

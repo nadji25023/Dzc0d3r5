@@ -1,0 +1,79 @@
+10
+
+dir
+109
+svn://192.168.1.20/inpress/trunk/inpress/core
+svn://192.168.1.20
+
+
+
+2013-03-20T02:06:03.268831Z
+109
+aziz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+eb8451c4-ef8d-7046-8bfd-3a0f7377cec8
+
+ThemeInit.php
+file
+
+
+
+replace
+
+67b607991e48ce4fabba5aea54aa273b
+2013-03-18T03:30:54.635687Z
+103
+nadji
+
+
+
+
+
+
+
+
+copied
+svn://192.168.1.20/inpress/trunk/inpress/core/ThemeInit.php
+117
+
+admin
+dir
+
+builder
+dir
+
+
+
+add
+
+functions
+dir
+
+helpers
+dir
+
+plugins
+dir
+
+shortcodes
+dir
+
+types
+dir
+
+widgets
+dir
+

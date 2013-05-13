@@ -1,0 +1,379 @@
+/* Font importation */
+@font-face {
+    font-family: "Open Sans";
+    src: url('../fonts/Open_Sans/opensans-regular-webfont.eot');
+    src: url('../fonts/Open_Sans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Open_Sans/opensans-regular-webfont.woff') format('woff'),
+        url('../fonts/Open_Sans/opensans-regular-webfont.ttf') format('truetype'),
+        url('../fonts/Open_Sans/opensans-regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+/* Bootstrap Overides */
+.container-fluid {
+     padding-right: 0px;
+     padding-left: 0px;
+}
+@media(max-width: 767px){
+    body {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+}
+a, a:hover, a:focus, a:active{
+    text-decoration: none;
+    outline: none;
+}
+.tooltip-inner{
+    padding: 5px 8px 5px 8px;
+}
+
+/* General */
+html, body, *{
+    font-family: "Open Sans";
+}
+body{  
+    background: url('../../images/bg_body.jpg') fixed no-repeat;
+}
+.body_wrap {
+    border: none; /* Required for boxed layout */
+    margin: 0 auto;
+    width: 100%; 
+}
+    .body_wrap.boxed{
+        width: 1060px;
+        box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.4);
+    }
+    
+/* Heading */
+.header_wrap{
+    position: relative;
+}
+.header_wrap li{
+    line-height: inherit;
+}
+.header_wrap .navbar-inner{
+    display: inline-block;
+    border:none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.top_header_wrap{
+    border-radius:0px !important;
+    -webkit-border-radius:0px !important;
+    -moz-border-radius:0px !important;
+    -o-border-radius:0px !important;
+    background: #00323b url('../../images/separator_png.png') center bottom repeat-x;
+    margin: 0;
+    width: 100%;
+}
+.top_header_wrap.floated{
+    background: url('../../opac_75.png');
+    background-image: none;
+    z-index: 100;
+    position: relative;
+}
+.top_header{
+    margin: 0 auto;
+    position: relative;
+    width: 1060px;
+    text-align: center;
+    padding: 5px 0 5px 0;
+}
+.top_header_wrap.floated .top_header{
+    text-align: center;
+    border-radius:0 0 4px 4px !important;
+    -webkit-border-radius:0 0 4px 4px !important;
+    -moz-border-radius:0 0 4px 4px !important;
+    -o-border-radius:0 0 4px 4px !important;
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0 , 0, 0.4);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0 , 0, 0.4);
+    background: #00323b;
+    position: relative;
+    vertical-align: middle;
+}
+.middle_header_wrap{ 
+    background: #006c80;
+}
+.middle_header{
+    margin: 0 auto;
+    position: relative;
+    width: 1060px;
+    text-align: center;
+    padding: 5px 0 5px 0;
+}    
+.bottom_header_wrap{ 
+    background: #ffffff;
+    position: relative;
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0 , 0, 0.3);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0 , 0, 0.3);
+    width: 100%;
+    border-top: solid 1px #d0d0d0;
+}
+.body_wrap.boxed .bottom_header_wrap{
+    width: 100%;
+}
+.bottom_header_wrap.fixed{
+    position: fixed;
+    top: 28px; /* Must be 28px when admin is connected */
+    width: 100%; /* Must match body_wrap width */
+    z-index: 999; 
+}
+.bottom_header{
+    margin: 0 auto;
+    position: relative;
+    width: 1060px;
+    z-index: 100;
+    position: relative;
+    text-align: center;
+}
+.hwidget{   
+    display: inline-block;
+    margin: 0;
+    width: auto;
+}
+.hwidget .navbar-inner{
+    font-size: 12px;
+    min-height: 0px;
+    margin: 0;
+}
+.quicknav.navbar-inner{
+    margin: 0;
+}  
+.logo a{
+    color: #ffffff;
+}
+.social_links ul, .social_links li{
+    display: inline-block;
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+.top_header a{
+    color: #ffffff;
+}
+.middle_header a{
+    color: #ffffff;
+}
+.bottom_header a{
+    color: #333333;
+}
+.top_header .social_links a{
+    margin: 3px 0 3px 0;
+    color: #ffffff;
+    background: none;
+    box-shadow: none;
+    font-size: 16px;
+}
+.header_wrap form{
+    margin:0;
+    padding: 0;
+}
+.header_wrap .field{
+    font-size: 12px;
+    margin: 0;
+    width: 100px;
+}
+.header_wrap .submit{
+    font-family: 'icons';
+    background: transparent;
+    border: none;
+    margin-left: -30px;
+}
+.header_wrap .contacts-info{
+    font-size: 12px;
+    color: #f4f4f4;
+}
+.icon12.rounded {color:#00323b; font-size:9px; line-height: 20px; width:20px; height:20px; margin-right:5px;border-radius: 6px; background: white;}
+.icon16.rounded {color:#00323b; font-size:12px; line-height: 20px; width:20px; height:20px; margin-right:5px;border-radius: 8px; background: white;}
+.icon17.rounded {color:#00323b; font-size:13px; line-height: 20px; width:20px; height:20px; margin-right:5px;border-radius: 9px; background: white;}
+.icon20.rounded {color:#00323b; font-size:16px; line-height: 20px; width:20px; height:20px; margin-right:5px;border-radius: 10px; background: white;}
+
+.icon24.rounded {color:#006c80; -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3); font-size:16px; line-height: 26px; text-align: center; width:24px; height:24px; border-radius: 12px; background: white; margin: 0 3px 0 3px; display: block;}
+.icon32.rounded {-webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);  font-size:20px; width:32px; line-height: 32px; height:32px; margin-right:5px; border-radius: 16px; background: white;}
+.icon42.rounded {font-size:42px; width:42px; height:42px;}
+.icon120.rounded {font-size:120px; width:120px; height:120px;}
+.header div#logo a{
+    color: #ffffff;
+    font-size: 60px;
+    line-height: 80px;
+    text-transform: uppercase;
+}
+
+.header .social_links li{
+    float: left;
+}
+.header_wrap .nav li a {
+    padding: 0 5px 0 5px;
+    text-shadow:none;
+}
+
+ul li.active { 
+    _visibility: hidden; /*IE6 rule*/ 
+}
+ul#mainnav_menu, ul#mainnav_menu * {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase; 
+}
+ul#mainnav_menu {
+    font-size: 14px;
+    position: relative;
+    text-align: center;
+    z-index: 100; 
+    width: 100%;
+}
+    ul#mainnav_menu li:hover { 
+        visibility: inherit; 
+    }
+    ul#mainnav_menu li.main-menu-item { 
+        display: inline-block; 
+        margin: 0 1px 0 1px; /* if javascript is deactivated */
+    }
+    ul#mainnav_menu li {
+        float: none;
+        padding: 0;
+        position: relative;
+        z-index: 100; 
+    }
+        ul#mainnav_menu li a {
+            display: block;
+            height: 100%;
+            line-height: 35px;
+            margin: 0;
+            padding: 0 10px 0 10px;
+            text-transform: uppercase; 
+        }
+        ul#mainnav_menu li a.main-menu-link{
+            border-bottom: solid 5px #fff;
+        }
+        ul#mainnav_menu li ul a{
+            line-height: inherit;
+        }
+* html ul#mainnav_menu ul li a { 
+    display: inline-block; /*IE6 hack to get sub menu links to behave correctly*/ 
+}
+
+ul#mainnav_menu li.main-menu-item.current-menu-item a.current-menu-link,
+ul#mainnav_menu li.main-menu-item.current-menu-item a.main-menu-link,
+ul#mainnav_menu li.main-menu-item.over_menu a.main-menu-link,
+ul#mainnav_menu li.main-menu-item.current-menu-ancestor a.main-menu-link.current-link-ancestor,
+ul#mainnav_menu li.main-menu-item:hover a.main-menu-link
+{
+    border-bottom: solid 5px;
+    color: #006c80; 
+}
+
+ul#mainnav_menu li.current-menu-item a.current-menu-link .link_description,
+ul#mainnav_menu li.main-menu-item.over_menu a.main-menu-link .link_description,
+ul#mainnav_menu li.main-menu-item.current-menu-ancestor a.main-menu-link.current-link-ancestor .link_description,
+ul#mainnav_menu li.main-menu-item:hover a.main-menu-link .link_description
+{ 
+    color: #006c80; 
+}
+ul#mainnav_menu li ul {
+    position: absolute;
+    top: -999em;
+    width: 190px; 
+}
+    ul#mainnav_menu li ul li {
+        background: none;
+        display: block;
+        margin: 0;
+        padding: 0; 
+    }
+        ul#mainnav_menu li ul li.not-first { 
+            border-top: solid 1px #d0d0d0;
+        }
+            ul#mainnav_menu li ul li a {
+                display: block;
+                margin: 0;
+                padding: 7px 0px 7px 0px;
+                position: relative;
+                text-align: left;
+                text-indent: 0.5em;
+                text-transform: none;
+                border-left: solid 5px #fff;
+            }
+
+    ul#mainnav_menu li ul.menu-odd li { 
+        top: 0; 
+    }
+    ul#mainnav_menu li ul.menu-even li { 
+        top: 0; 
+    }
+ul#mainnav_menu li:hover ul,
+ul#mainnav_menu li.sfHover ul { 
+    top: 40px; 
+}
+ul#mainnav_menu li:hover .menu_drop_wrap,
+ul#mainnav_menu li.sfHover .menu_drop_wrap {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+    background: #fcfcfc;
+    behavior: url(../fixes/PIE.htc);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+    margin: 10px 0 0 0;
+    padding: 4px;
+    width: 190px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+ul#mainnav_menu li li:hover ul.sub-sub-menu,
+ul#mainnav_menu li li.sfHover ul.sub-sub-menu { 
+    margin-top: -13px; 
+}
+ul#mainnav_menu li:hover li ul,
+ul#mainnav_menu li.sfHover li ul { 
+    top: -999em; 
+}
+ul#mainnav_menu li li:hover ul,
+ul#mainnav_menu li li.sfHover ul {
+    left: 190px; /* match ul width */
+    padding: 0 10px 0 10px;
+    top: 0; 
+}
+ul#mainnav_menu li li:hover li ul,
+ul#mainnav_menu li li.sfHover li ul { 
+    top: -999em; 
+}
+ul#mainnav_menu li li li:hover ul,
+ul#mainnav_menu li li li.sfHover ul {
+    left: 190px; /* match ul width */
+    padding: 0 10px 0 10px;
+    top: 0; 
+}
+
+ul#mainnav_menu li.sub-menu-item:hover a:hover,
+ul#mainnav_menu li.sub-menu-item.over_menu a:hover{  
+    color: #006c80;
+    border-left:solid 5px #006c80;
+}
+ul#quicknav_menu a{
+    color: #d0d0d0;
+}
+ul#quicknav_menu a:hover{
+    color: #fff;
+}
+
+/* Media Queries */
+@media(max-width: 1060px){
+    
+    .body_wrap.boxed,
+    .top_header,
+    .middle_header,
+    .bottom_header_wrap,
+    .bottom_header,
+    .body_wrap.boxed .bottom_header_wrap{
+        width: 100%;
+    }
+}
